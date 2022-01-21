@@ -20,7 +20,7 @@ const StudentSchema=new mongoose.Schema({
         unique:false,
         maxlength:[50,'Email Should not be greater than 50 characters'],
         match:[
-            '/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/',
+            /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
             'Please add a valid email'
         ]
     },

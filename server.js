@@ -4,6 +4,11 @@ const connectDB = require('./config/db');
 const morgan = require('morgan');
 const colors = require('colors');
 
+
+// Load route files
+
+const students=require('./routes/students');
+
 // Load env file
 dotenv.config({ path: './config/config.env' });
 
@@ -11,10 +16,20 @@ dotenv.config({ path: './config/config.env' });
 connectDB();
 
 const app = express();
+
+
+// Body Parser
+app.use(express.json());
+
+
 // logger middleware to log request details using morgan
 if (process.env.NODE_ENV === 'development') {
     app.use(morgan('dev'));
 }
+
+// Mount routes
+
+app.use('/api/v1/students',students);
 
 
 const PORT = process.env.PORT || 8000;
