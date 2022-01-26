@@ -1,5 +1,6 @@
 const express = require('express');
 const dotenv = require('dotenv');
+const erroHandler=require('./middleware/error');
 const morgan = require('morgan');
 const colors = require('colors');
 const connectDB = require('./config/db');
@@ -27,6 +28,9 @@ if (process.env.NODE_ENV === 'development') {
 // Mount routes
 
 app.use('/api/v1/students', students);
+
+
+app.use(erroHandler);
 
 const PORT = process.env.PORT || 8000;
 

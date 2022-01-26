@@ -1,4 +1,5 @@
 const Student = require('../models/Student');
+const ErrorRessponse=require('../utils/errorResponse');
 
 exports.getStudents = async (req, res, next) => {
   try {
@@ -6,8 +7,7 @@ exports.getStudents = async (req, res, next) => {
     res.status(200)
       .json({ success: true, data: student_data });
   } catch (err) {
-    res.status(400)
-      .json({ success: false });
+    next(err);
   }
 };
 
@@ -17,8 +17,7 @@ exports.getStudent = async (req, res, next) => {
     res.status(200)
       .json({ success: true, data: student_data });
   } catch (err) {
-    res.status(400)
-      .json({ success: false });
+       next(err);
   }
 };
 
@@ -28,7 +27,7 @@ exports.createStudent = async (req, res, next) => {
     res.status(201)
       .json({ success: true, data: student_data });
   } catch (err) {
-    res.status(400).json({ success: false });
+       next(err);
   }
 };
 
@@ -39,14 +38,12 @@ exports.updateStudent = async (req, res, next) => {
       runValidators: true,
     });
     if (!student_data) {
-      res.status(400)
-        .json({ success: false, msg: 'Here' });
+       return next(new ErrorRessponse(`Student not found with id ${req.params.id}`,404));
     }
     res.status(200)
       .json({ success: true, data: student_data });
   } catch (err) {
-    res.status(400)
-      .json({ success: false, msg: err });
+    next(err);
   }
 };
 
@@ -57,13 +54,11 @@ exports.deleteStudent = async (req, res, next) => {
       runValidators: true,
     });
     if (!student_data) {
-      res.status(400)
-        .json({ success: false });
+      return next(new ErrorRessponse(`Student not found with id ${req.params.id}`,404));
     }
     res.status(203)
       .json({ success: true, data: student_data });
   } catch (err) {
-    res.status(400)
-      .json({ success: false });
+    next(err);
   }
 };
