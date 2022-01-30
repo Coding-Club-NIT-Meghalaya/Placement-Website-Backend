@@ -6,7 +6,8 @@
     "scripts": {
         "start": "set NODE_ENV=production&& nodemon server/server.js",
         "dev": "nodemon server",
-        "test":"mocha --recursive --exit"
+        "test": "mocha --recursive --exit timeout 240000",
+        "test-with-coverage": "nyc mocha --recursive --exit --timeout 240000"
     },
     "repository": {
         "type": "git",
@@ -27,6 +28,7 @@
         "mockgoose": "^8.0.4",
         "mongoose": "^6.1.6",
         "morgan": "^1.10.0",
+        "nyc": "^15.1.0",
         "supertest": "^6.2.2"
     },
     "devDependencies": {
