@@ -13,7 +13,10 @@ const students = require('./routes/students');
 dotenv.config({ path: './config/config.env' });
 
 // Connect to Mongodb Database
-connectDB();
+if(process.env.NODE_ENV!='test'){
+  connectDB();
+}
+
 
 const app = express();
 
@@ -35,7 +38,7 @@ app.use(erroHandler);
 const PORT = process.env.PORT || 8000;
 
 app.get('/', (req, res) => {
-  res.send('Hi there !!');
+  res.status(200).send('Hi there !!');
 });
 
 const server = app.listen(PORT, console.log(`Server running in ${process.env.NODE_ENV} mode on port ${PORT}`.yellow.bold));
@@ -46,3 +49,5 @@ process.on('unhandledRejection', (err, promise) => {
   // close server and exit process
   server.close(() => process.exit(1));
 });
+
+module.exports=app;
