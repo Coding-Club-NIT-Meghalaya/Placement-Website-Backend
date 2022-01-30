@@ -6,7 +6,7 @@ const app=require('../../server');
 const conn=require("../../config/db_test");
 
 
-// Test Case for post students
+// Test Case for creating students
 describe('POST /student',()=>{
     before((done)=>{
         conn.connect().then(()=>done()).catch((err)=>done(err));
