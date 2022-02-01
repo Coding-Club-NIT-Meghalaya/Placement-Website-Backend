@@ -11,6 +11,10 @@ const {
 const router = express.Router();
 router.route("/").get(getCompanies).post(upload.single("photo"), createCompany);
 
-router.route("/:id").get(getCompany).put(updateCompany).delete(deleteCompany);
+router
+  .route("/:id")
+  .get(getCompany)
+  .put(upload.single("photo"), updateCompany)
+  .delete(deleteCompany);
 
 module.exports = router;
