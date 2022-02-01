@@ -1,6 +1,5 @@
 const Company = require("../models/Company");
 const ErrorRessponse = require("../utils/errorResponse");
-
 exports.getCompanies = async (req, res, next) => {
   try {
     const company_data = await Company.find();
@@ -21,7 +20,13 @@ exports.getCompany = async (req, res, next) => {
 
 exports.createCompany = async (req, res, next) => {
   try {
-    const company_data = await Company.create(req.body);
+    const { name, domain } = req.body;
+    const data = {
+      name,
+      domain,
+      photo: req.file.filename,
+    };
+    const company_data = await Company.create(data);
     res.status(201).json({ success: true, data: company_data });
   } catch (err) {
     next(err);
