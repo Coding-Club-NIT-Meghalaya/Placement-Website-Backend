@@ -31,7 +31,6 @@ if (process.env.NODE_ENV === "development") {
 // Mount routes
 
 app.use("/api/v1/students", students);
-app.use("/api/v1/companies", companies);
 
 app.use(erroHandler);
 
