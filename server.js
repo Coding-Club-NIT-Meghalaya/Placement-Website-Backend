@@ -1,22 +1,22 @@
-const express = require('express');
-const dotenv = require('dotenv');
-const erroHandler=require('./middleware/error');
-const morgan = require('morgan');
-const colors = require('colors');
-const connectDB = require('./config/db');
+const express = require("express");
+const dotenv = require("dotenv");
+const erroHandler = require("./middleware/error");
+const morgan = require("morgan");
+const colors = require("colors");
+const connectDB = require("./config/db");
 
 // Load route files
 
-const students = require('./routes/students');
+const students = require("./routes/students");
+const companies = require("./routes/company");
 
 // Load env file
-dotenv.config({ path: './config/config.env' });
+dotenv.config({ path: "./config/config.env" });
 
 // Connect to Mongodb Database
-if(process.env.NODE_ENV!='test'){
+if (process.env.NODE_ENV != "test") {
   connectDB();
 }
-
 
 const app = express();
 
@@ -24,30 +24,35 @@ const app = express();
 app.use(express.json());
 
 // logger middleware to log request details using morgan
-if (process.env.NODE_ENV === 'development') {
-  app.use(morgan('dev'));
+if (process.env.NODE_ENV === "development") {
+  app.use(morgan("dev"));
 }
 
 // Mount routes
 
-app.use('/api/v1/students', students);
-
+app.use("/api/v1/students", students);
+app.use("/api/v1/companies", companies);
 
 app.use(erroHandler);
 
 const PORT = process.env.PORT || 8000;
 
-app.get('/', (req, res) => {
-  res.status(200).send('Hi there !!');
+app.get("/", (req, res) => {
+  res.status(200).send("Hi there !!");
 });
 
-const server = app.listen(PORT, console.log(`Server running in ${process.env.NODE_ENV} mode on port ${PORT}`.yellow.bold));
+const server = app.listen(
+  PORT,
+  console.log(
+    `Server running in ${process.env.NODE_ENV} mode on port ${PORT}`.yellow.bold
+  )
+);
 
 // Handle unhandled promise rejection
-process.on('unhandledRejection', (err, promise) => {
+process.on("unhandledRejection", (err, promise) => {
   console.log(`Error:${err.message}`);
   // close server and exit process
   server.close(() => process.exit(1));
 });
 
-module.exports=app;
+module.exports = app;
