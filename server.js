@@ -1,5 +1,6 @@
 const express = require('express');
 const dotenv = require('dotenv');
+const cookieParser=require('cookie-parser');
 const erroHandler=require('./middleware/error');
 const morgan = require('morgan');
 const colors = require('colors');
@@ -8,6 +9,7 @@ const connectDB = require('./config/db');
 // Load route files
 
 const students = require('./routes/students');
+const auth=require('./routes/auth');
 
 // Load env file
 dotenv.config({ path: './config/config.env' });
@@ -28,9 +30,12 @@ if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
 }
 
+app.use(cookieParser());
+
 // Mount routes
 
 app.use('/api/v1/students', students);
+app.use('/api/v1/auth',auth);
 
 
 app.use(erroHandler);
